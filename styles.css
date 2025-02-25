@@ -1,0 +1,80 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+  }
+  
+  header {
+    background: #333;
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .notif-btn {
+    background: #444;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .app-card {
+    background: #eee;
+    border-radius: 4px;
+    padding: 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .app-card:hover {
+    transform: scale(1.03);
+  }
+  .app-card img {
+    max-width: 50px;
+    max-height: 50px;
+    display: block;
+    margin: 0 auto 0.5rem;
+  }
+  .app-card .app-title {
+    font-weight: bold;
+    margin: 0.5rem 0;
+  }
+  
+  /* Модальне вікно */
+  .modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+  }
+  .hidden {
+    display: none !important;
+  }
+  .modal-content {
+    background: #fff;
+    padding: 1rem;
+    width: 300px;
+    border-radius: 5px;
+  }
+  .modal h2, .modal h3 {
+    margin-top: 0;
+  }
+  .modal-buttons {
+    margin-top: 1rem;
+    text-align: right;
+  }
+  .modal-buttons button {
+    margin-left: 0.5rem;
+  }
+ 

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>My Password Manager</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Мій менеджер паролів</h1>
+      <!-- Кнопка для відкриття «Повідомлень» -->
+      <button id="notificationsBtn" class="notif-btn">
+        Повідомлення <span id="notifCount">0</span>
+      </button>
+    </header>
+
+    <!-- Секція логіну -->
+    <div id="login-container">
+      <h2>Введіть майстер-пароль</h2>
+      <input
+        type="password"
+        id="masterPasswordInput"
+        placeholder="Введіть майстер-пароль"
+      />
+      <button id="loginBtn">Увійти</button>
+      <p id="loginError" class="error hidden">
+        Будь ласка, введіть коректний пароль.
+      </p>
+    </div>
+
+    <!-- Головний контейнер із сіткою карток -->
+    <div id="main-container" class="hidden">
+        <div id="appGrid" class="app-grid"></div>
+        <button id="changeMasterBtn">Змінити майстер-пароль</button>
+    </div>
+
+    <!-- Кнопка «Додати застосунок» -->
+    <div style="margin: 1rem">
+      <button id="addAppBtn">Додати застосунок</button>
+    </div>
+
+    <!-- Модальне вікно «деталі застосунку» -->
+    <div id="appDetailModal" class="modal hidden">
+      <div class="modal-content">
+        <h2 id="detailTitle">Назва застосунку</h2>
+        <img
+          id="detailIcon"
+          src=""
+          alt="icon"
+          style="max-width: 50px; max-height: 50px"
+        />
+
+        <p><strong>Логін:</strong> <span id="detailLogin"></span></p>
+        <p><strong>Пароль:</strong> <span id="detailPassword"></span></p>
+        <p>
+          <strong>Останнє оновлення:</strong> <span id="detailUpdated"></span>
+        </p>
+
+        <div class="modal-buttons">
+          <button id="showHideBtn">Показати/Приховати</button>
+          <button id="copyBtn">Копіювати</button>
+          <button id="editBtn">Редагувати</button>
+          <button id="closeDetailBtn">Закрити</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модальне вікно «редагування/додавання застосунку» -->
+    <div id="editModal" class="modal hidden">
+      <div class="modal-content">
+        <h3 id="editModalTitle">Новий запис</h3>
+        <label>Назва:</label>
+        <input id="appNameInput" type="text" />
+        <label>URL або шлях до іконки (необов'язково):</label>
+        <input
+          id="appIconInput"
+          type="text"
+          placeholder="https://example.com/icon.png"
+        />
+        <label>Логін:</label>
+        <input id="loginInput" type="text" />
+        <label>Пароль:</label>
+        <input id="passwordInput" type="text" />
+
+        <div class="modal-buttons">
+          <button id="saveEditBtn">Зберегти</button>
+          <button id="cancelEditBtn">Скасувати</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модальне вікно «список повідомлень» -->
+    <div id="notificationsModal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Повідомлення</h3>
+        <ul id="notificationList"></ul>
+        <div class="modal-buttons">
+          <button id="closeNotificationsBtn">Закрити</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модальне вікно для зміни майстер-пароля -->
+    <div id="changeMasterModal" class="modal hidden">
+        <div class="modal-content">
+          <h3>Зміна майстер-пароля</h3>
+          <label>Поточний пароль:</label>
+          <input type="password" id="oldMasterPasswordInput" placeholder="Поточний пароль" />
+          <label>Новий пароль:</label>
+          <input type="password" id="newMasterPasswordInput" placeholder="Новий пароль" />
+          <label>Підтвердження нового пароля:</label>
+          <input type="password" id="confirmNewMasterPasswordInput" placeholder="Підтвердження" />
+          <div class="modal-buttons">
+            <button id="saveMasterBtn">Зберегти</button>
+            <button id="cancelMasterBtn">Скасувати</button>
+          </div>
+        </div>
+      </div>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>
