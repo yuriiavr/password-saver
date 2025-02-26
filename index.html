@@ -4,19 +4,18 @@
     <meta charset="utf-8" />
     <title>My Password Manager</title>
     <link rel="stylesheet" href="styles.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <header>
-      <h1>Мій менеджер паролів</h1>
-      <!-- Кнопка для відкриття «Повідомлень» -->
-      <button id="notificationsBtn" class="notif-btn">
-        Повідомлення <span id="notifCount">0</span>
-      </button>
-    </header>
-
     <!-- Секція логіну -->
-    <div id="login-container">
-      <h2>Введіть майстер-пароль</h2>
+    <div id="login-container" class="login-cont">
+      <h1>Введіть майстер-пароль</h1>
       <input
         type="password"
         id="masterPasswordInput"
@@ -30,13 +29,14 @@
 
     <!-- Головний контейнер із сіткою карток -->
     <div id="main-container" class="hidden">
-        <div id="appGrid" class="app-grid"></div>
-        <button id="changeMasterBtn">Змінити майстер-пароль</button>
-    </div>
-
-    <!-- Кнопка «Додати застосунок» -->
-    <div style="margin: 1rem">
-      <button id="addAppBtn">Додати застосунок</button>
+      <div id="appGrid" class="app-grid"></div>
+      <div style="margin: 1rem">
+        <button id="addAppBtn">Додати застосунок</button>
+      </div>
+      <button id="notificationsBtn" class="notif-btn">
+        Повідомлення <span id="notifCount">0</span>
+      </button>
+      <button id="changeMasterBtn">Змінити майстер-пароль</button>
     </div>
 
     <!-- Модальне вікно «деталі застосунку» -->
@@ -51,17 +51,28 @@
         />
 
         <p><strong>Логін:</strong> <span id="detailLogin"></span></p>
-        <p><strong>Пароль:</strong> <span id="detailPassword"></span></p>
+        <div style="position: relative">
+          <strong>Пароль:</strong> <span id="detailPassword"></span>
+          <div class="buttons-cont">
+            <button id="showHideBtn" class="show-password">
+              <img src="img/show-pass.png" alt="show pass" />
+            </button>
+            <button class="show-password" id="copyBtn">
+              <img src="img/copy.png" alt="copy" />
+            </button>
+          </div>
+        </div>
         <p>
           <strong>Останнє оновлення:</strong> <span id="detailUpdated"></span>
         </p>
 
         <div class="modal-buttons">
-          <button id="showHideBtn">Показати/Приховати</button>
-          <button id="copyBtn">Копіювати</button>
           <button id="editBtn">Редагувати</button>
-          <button id="closeDetailBtn">Закрити</button>
         </div>
+
+        <button class="close-button" id="closeDetailBtn">
+          <img src="img/close.png" alt="close" />
+        </button>
       </div>
     </div>
 
@@ -102,20 +113,32 @@
 
     <!-- Модальне вікно для зміни майстер-пароля -->
     <div id="changeMasterModal" class="modal hidden">
-        <div class="modal-content">
-          <h3>Зміна майстер-пароля</h3>
-          <label>Поточний пароль:</label>
-          <input type="password" id="oldMasterPasswordInput" placeholder="Поточний пароль" />
-          <label>Новий пароль:</label>
-          <input type="password" id="newMasterPasswordInput" placeholder="Новий пароль" />
-          <label>Підтвердження нового пароля:</label>
-          <input type="password" id="confirmNewMasterPasswordInput" placeholder="Підтвердження" />
-          <div class="modal-buttons">
-            <button id="saveMasterBtn">Зберегти</button>
-            <button id="cancelMasterBtn">Скасувати</button>
-          </div>
+      <div class="modal-content">
+        <h3>Зміна майстер-пароля</h3>
+        <label>Поточний пароль:</label>
+        <input
+          type="password"
+          id="oldMasterPasswordInput"
+          placeholder="Поточний пароль"
+        />
+        <label>Новий пароль:</label>
+        <input
+          type="password"
+          id="newMasterPasswordInput"
+          placeholder="Новий пароль"
+        />
+        <label>Підтвердження нового пароля:</label>
+        <input
+          type="password"
+          id="confirmNewMasterPasswordInput"
+          placeholder="Підтвердження"
+        />
+        <div class="modal-buttons">
+          <button id="saveMasterBtn">Зберегти</button>
+          <button id="cancelMasterBtn">Скасувати</button>
         </div>
       </div>
+    </div>
 
     <script src="renderer.js"></script>
   </body>

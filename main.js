@@ -6,13 +6,8 @@ const fs = require('fs');
 const crypto = require('crypto');
 
 let mainWindow = null;
-// Змінна для зберігання шляху до файлу з даними.
-// Якщо користувач вибере файл через діалог, шлях збережеться тут.
 let dataFilePath = '';
 
-/* ---------------------------
-   Криптографічні константи та функції
---------------------------- */
 const AES_ALGORITHM = 'aes-256-gcm';
 const SALT_LENGTH = 16;         // 16 байт для salt
 const IV_LENGTH = 12;           // 12 байт для GCM IV
