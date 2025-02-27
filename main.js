@@ -62,6 +62,22 @@ ipcMain.handle('pick-file-location', async (event) => {
   return dataFilePath;
 });
 
+ipcMain.handle('pick-existing-file', async () => {
+  const result = await dialog.showOpenDialog({
+    title: 'Оберіть файл з паролями',
+    defaultPath: app.getPath('documents'),
+    filters: [{ name: 'JSON Files', extensions: ['json'] }],
+    properties: ['openFile']
+  });
+
+  if (result.canceled || result.filePaths.length === 0) {
+    return null;
+  }
+
+  dataFilePath = result.filePaths[0];
+  return dataFilePath;
+});
+
 ipcMain.handle('set-file-path', async (event, filePath) => {
     dataFilePath = filePath;
     console.log("Data file path встановлено:", dataFilePath);

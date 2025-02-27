@@ -417,26 +417,35 @@ function checkOldPasswords() {
  */
 async function init() {
   let storedFilePath = window.localStorage.getItem('dataFilePath');
-  if (storedFilePath) {
-    await window.api.setFilePath(storedFilePath);
-  } else {
-    // Якщо шляху немає, дозвольте користувачу обрати його
-    const chosenPath = await window.api.pickFileLocation();
+
+  if (!storedFilePath) {
+    // Дозволити користувачу вибрати файл або створити новий
+    const userChoice = confirm("Ви вже маєте файл з паролями?");
+    let chosenPath = null;
+
+    if (userChoice) {
+      chosenPath = await window.api.pickExistingFile();
+    } else {
+      chosenPath = await window.api.pickFileLocation();
+    }
+
     if (chosenPath) {
       window.localStorage.setItem('dataFilePath', chosenPath);
       await window.api.setFilePath(chosenPath);
     } else {
-      alert("Спочатку оберіть місце збереження файлу!");
+      alert("Спочатку потрібно вибрати або створити файл!");
       return;
     }
+  } else {
+    await window.api.setFilePath(storedFilePath);
   }
-  
-  await loadData();        // заглушка (або реальний IPC)
 
-  checkOldPasswords();     // додаємо сповіщення, якщо треба
-  renderGrid();            // відмальовуємо картки
-  updateUnreadCount();     // лічильник нотифікацій
+  await loadData();
+  checkOldPasswords();
+  renderGrid();
+  updateUnreadCount();
 }
+
 
 // --------------------------
 // ОБРОБНИКИ ПОДІЙ
@@ -444,6 +453,20 @@ async function init() {
 
 // Кнопка «Додати застосунок»
 addAppBtn.addEventListener('click', () => openEditModal(null, -1));
+
+document.getElementById('changeFileBtn').addEventListener('click', async () => {
+  const newFilePath = await window.api.pickExistingFile();
+
+  if (newFilePath) {
+    window.localStorage.setItem('dataFilePath', newFilePath);
+    await window.api.setFilePath(newFilePath);
+    await loadData();
+    alert("Файл змінено успішно!");
+  } else {
+    alert("Вибір скасовано.");
+  }
+});
+
 
 // Детальна модалка
 closeDetailBtn.addEventListener('click', closeDetailModal);
