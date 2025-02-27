@@ -42,11 +42,14 @@ input, button{
 }
 
 .notif-btn {
-  background: #444;
+  background: transparent;
   color: #fff;
   border: none;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
 }
 
 .app-grid {
@@ -54,6 +57,8 @@ input, button{
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 1rem;
   padding: 1rem;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .app-card {
@@ -128,9 +133,17 @@ input, button{
 .modal-buttons {
   margin-top: 1rem;
   text-align: right;
+  display: flex;
+  justify-content: space-between;
 }
+
+.modal-buttons div{
+  display: flex;
+}
+
 .modal-buttons button {
   margin-left: 0.5rem;
+  font-size: 14px;
 }
 
 .buttons-cont{
@@ -157,4 +170,73 @@ input, button{
 
 .close-button img{
   width: 15px;
+}
+
+.search{
+  display: flex;
+  justify-content: center;
+  margin: 30px auto;
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 20px;
+  padding: 10px 15px;
+}
+
+#addAppBtn{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+
+.settings-cont{
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.settings-cont button{
+  background-color: #ff5277;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+#customTitleBar {
+  width: 100%;
+  height: 30px;
+  background: #222;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  user-select: none;
+  -webkit-app-region: drag; /* Дозволяє перетягування вікна */
+}
+.titleBar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.window-buttons button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  -webkit-app-region: no-drag; /* Вимикає перетягування на кнопках */
+}
+
+.window-buttons button:hover {
+  background: rgba(255, 255, 255, 0.2);
 }

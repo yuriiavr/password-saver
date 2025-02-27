@@ -13,6 +13,18 @@
     />
   </head>
   <body>
+
+    <div id="customTitleBar">
+      <div class="titleBar">
+        <div id="title">Password manager</div>
+        <div class="window-buttons">
+          <button id="minimizeBtn">—</button>
+          <button id="maximizeBtn">□</button>
+          <button id="closeBtn">✕</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Секція логіну -->
     <div id="login-container" class="login-cont">
       <h1>Введіть майстер-пароль</h1>
@@ -29,15 +41,19 @@
 
     <!-- Головний контейнер із сіткою карток -->
     <div id="main-container" class="hidden">
+      <input type="text" id="searchInput" class="search" placeholder="Пошук додатків..." />
+
       <div id="appGrid" class="app-grid"></div>
       <div style="margin: 1rem">
-        <button id="addAppBtn">Додати застосунок</button>
+        <button id="addAppBtn"><img src="img/add.png" alt="add"></button>
       </div>
       <button id="notificationsBtn" class="notif-btn">
-        Повідомлення <span id="notifCount">0</span>
+        <img id="messageIcon" src="img/message.png" alt="message"> <span id="notifCount">0</span>
       </button>
-      <button id="changeMasterBtn">Змінити майстер-пароль</button>
-      <button id="changeFileBtn">Змінити файл</button>
+      <div class="settings-cont">
+        <button id="changeMasterBtn">Змінити майстер-пароль</button>
+        <button id="changeFileBtn">Змінити файл з паролями</button>
+      </div>
     </div>
 
     <!-- Модальне вікно «деталі застосунку» -->
@@ -93,10 +109,13 @@
         <input id="loginInput" type="text" />
         <label>Пароль:</label>
         <input id="passwordInput" type="text" />
-
+        
         <div class="modal-buttons">
+          <div>
+            <button id="cancelEditBtn">Скасувати</button>
+            <button id="generatePasswordBtn">Генерувати</button>
+          </div>
           <button id="saveEditBtn">Зберегти</button>
-          <button id="cancelEditBtn">Скасувати</button>
         </div>
       </div>
     </div>
@@ -140,6 +159,8 @@
         </div>
       </div>
     </div>
+
+    
 
     <script src="renderer.js"></script>
   </body>

@@ -60,32 +60,37 @@ const closeNotificationsBtn = document.getElementById('closeNotificationsBtn');
  * Відмалювати grid із картками. 
  * Кожен об'єкт у passwordData -> одна картка .app-card
  */
-function renderGrid() {
-  appGrid.innerHTML = '';  // очистити сітку
-  // Для кожного елемента у passwordData створюємо картку (app card)
-  passwordData.forEach((item, index) => {
-    const card = document.createElement('div');
-    card.classList.add('app-card');
-    // Якщо є іконка, додаємо <img>
-    if (item.iconUrl) {
-      const img = document.createElement('img');
-      img.src = item.iconUrl;
-      card.appendChild(img);
-    }
-    // Додаємо назву застосунку
-    const title = document.createElement('div');
-    title.classList.add('app-title');
-    title.textContent = item.appName;
-    card.appendChild(title);
-    
-    // При кліку на картку відкриваємо деталі (реалізуйте openDetailModal за потребою)
-    card.addEventListener('click', () => {
-      openDetailModal(index);
+function renderGrid(searchTerm = '') {
+  appGrid.innerHTML = ''; // Очистити сітку
+
+  passwordData
+    .filter(item => item.appName.toLowerCase().includes(searchTerm))
+    .forEach((item, index) => {
+      const card = document.createElement('div');
+      card.classList.add('app-card');
+
+      // Додаємо іконку (якщо є)
+      if (item.iconUrl) {
+        const img = document.createElement('img');
+        img.src = item.iconUrl;
+        card.appendChild(img);
+      }
+
+      // Додаємо назву
+      const title = document.createElement('div');
+      title.classList.add('app-title');
+      title.textContent = item.appName;
+      card.appendChild(title);
+
+      // При кліку на картку відкриваємо деталі
+      card.addEventListener('click', () => {
+        openDetailModal(index);
+      });
+
+      appGrid.appendChild(card);
     });
-    
-    appGrid.appendChild(card);
-  });
 }
+
 
 /**
  * Відкрити модалку деталей (коли юзер клікає на картку).
@@ -268,8 +273,15 @@ function renderNotifications() {
 function updateUnreadCount() {
   const unread = notifications.filter(n => !n.isRead).length;
   notifCountSpan.textContent = unread;
-}
 
+  const messageIcon = document.getElementById('messageIcon');
+  
+  if (unread > 0) {
+    messageIcon.src = "img/message-av.png";
+  } else {
+    messageIcon.src = "img/message.png"; // Змінюйте на стандартну іконку
+  }
+}
 
 const loginContainer = document.getElementById('login-container');
 const masterPasswordInput = document.getElementById('masterPasswordInput');
@@ -467,6 +479,52 @@ document.getElementById('changeFileBtn').addEventListener('click', async () => {
   }
 });
 
+
+/**
+ * Генерує випадковий пароль заданої довжини
+ * @param {number} length - довжина пароля (за замовчуванням 12 символів)
+ * @returns {string} - випадковий пароль
+ */
+function generateRandomPassword(length = 12) {
+  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+[]{}|;:,.<>?";
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    password += charset[randomIndex];
+  }
+  return password;
+}
+
+// Функція для обробки кліку на кнопку генерації пароля
+function handleGeneratePassword() {
+  const newPassword = generateRandomPassword(16); // Наприклад, 16 символів
+  passwordInput.value = newPassword;
+}
+
+document.getElementById('generatePasswordBtn').addEventListener('click', handleGeneratePassword);
+
+const searchInput = document.getElementById('searchInput');
+
+// Функція для фільтрації додатків за введеним текстом
+function filterApps() {
+  const searchTerm = searchInput.value.toLowerCase();
+  renderGrid(searchTerm);
+}
+
+// Додаємо обробник подій для поля пошуку
+searchInput.addEventListener('input', filterApps);
+
+document.getElementById('minimizeBtn').addEventListener('click', () => {
+  window.api.minimizeWindow();
+});
+
+document.getElementById('maximizeBtn').addEventListener('click', () => {
+  window.api.maximizeWindow();
+});
+
+document.getElementById('closeBtn').addEventListener('click', () => {
+  window.api.closeWindow();
+});
 
 // Детальна модалка
 closeDetailBtn.addEventListener('click', closeDetailModal);

@@ -145,6 +145,23 @@ ipcMain.handle('load-encrypted-data', async (event, masterPassword) => {
   }
 });
 
+ipcMain.on('minimize-window', () => {
+  mainWindow.minimize();
+});
+
+ipcMain.on('maximize-window', () => {
+  if (mainWindow.isMaximized()) {
+    mainWindow.unmaximize();
+  } else {
+    mainWindow.maximize();
+  }
+});
+
+ipcMain.on('close-window', () => {
+  mainWindow.close();
+});
+
+
 /* ---------------------------
    Створення головного вікна
 --------------------------- */
@@ -152,6 +169,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
     height: 600,
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,    // Вимикаємо прямий доступ до Node.js у рендері
@@ -164,6 +182,8 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
+  mainWindow.setMenu(null);
 }
 
 /* ---------------------------

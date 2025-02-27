@@ -7,5 +7,8 @@ contextBridge.exposeInMainWorld('api', {
     ipcRenderer.invoke('save-encrypted-data', { masterPassword, data }),
   loadEncryptedData: (masterPassword) =>
     ipcRenderer.invoke('load-encrypted-data', masterPassword),
-  setFilePath: (filePath) => ipcRenderer.invoke('set-file-path', filePath)
+  setFilePath: (filePath) => ipcRenderer.invoke('set-file-path', filePath),
+  minimizeWindow: () => ipcRenderer.send('minimize-window'),
+  maximizeWindow: () => ipcRenderer.send('maximize-window'),
+  closeWindow: () => ipcRenderer.send('close-window')
 });
