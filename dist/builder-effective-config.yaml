@@ -18,4 +18,4 @@ mac:
 linux:
   target: AppImage
   icon: build/icon.png
-electronVersion: 34.2.0
+electronVersion: 34.5.8

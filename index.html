@@ -13,14 +13,12 @@
     />
   </head>
   <body>
-
-    <div id="customTitleBar">
-      <div class="titleBar">
-        <div id="title">Password manager</div>
-        <div class="window-buttons">
-          <button id="minimizeBtn">—</button>
-          <button id="maximizeBtn">□</button>
-          <button id="closeBtn">✕</button>
+    <div id="fileChoiceModal" class="file-select-modal hidden">
+      <div class="file-select-content">
+        <h3>Ви вже маєте файл з паролями?</h3>
+        <div class="file-select-buttons">
+          <button id="btnChooseExisting">Обрати існуючий</button>
+          <button id="btnCreateNew">Створити новий</button>
         </div>
       </div>
     </div>
@@ -39,128 +37,150 @@
       </p>
     </div>
 
-    <!-- Головний контейнер із сіткою карток -->
     <div id="main-container" class="hidden">
-      <input type="text" id="searchInput" class="search" placeholder="Пошук додатків..." />
-
-      <div id="appGrid" class="app-grid"></div>
-      <div style="margin: 1rem">
-        <button id="addAppBtn"><img src="img/add.png" alt="add"></button>
-      </div>
-      <button id="notificationsBtn" class="notif-btn">
-        <img id="messageIcon" src="img/message.png" alt="message"> <span id="notifCount">0</span>
-      </button>
-      <div class="settings-cont">
-        <button id="changeMasterBtn">Змінити майстер-пароль</button>
-        <button id="changeFileBtn">Змінити файл з паролями</button>
-      </div>
-    </div>
-
-    <!-- Модальне вікно «деталі застосунку» -->
-    <div id="appDetailModal" class="modal hidden">
-      <div class="modal-content">
-        <h2 id="detailTitle">Назва застосунку</h2>
-        <img
-          id="detailIcon"
-          src=""
-          alt="icon"
-          style="max-width: 50px; max-height: 50px"
-        />
-
-        <p><strong>Логін:</strong> <span id="detailLogin"></span></p>
-        <div style="position: relative">
-          <strong>Пароль:</strong> <span id="detailPassword"></span>
-          <div class="buttons-cont">
-            <button id="showHideBtn" class="show-password">
-              <img src="img/show-pass.png" alt="show pass" />
-            </button>
-            <button class="show-password" id="copyBtn">
-              <img src="img/copy.png" alt="copy" />
-            </button>
+      <div id="customTitleBar">
+        <div class="titleBar">
+          <div id="title">Password manager</div>
+          <div class="window-buttons">
+            <button id="minimizeBtn">—</button>
+            <button id="maximizeBtn">□</button>
+            <button id="closeBtn">✕</button>
           </div>
         </div>
-        <p>
-          <strong>Останнє оновлення:</strong> <span id="detailUpdated"></span>
-        </p>
-
-        <div class="modal-buttons">
-          <button id="editBtn">Редагувати</button>
-        </div>
-
-        <button class="close-button" id="closeDetailBtn">
-          <img src="img/close.png" alt="close" />
-        </button>
       </div>
-    </div>
 
-    <!-- Модальне вікно «редагування/додавання застосунку» -->
-    <div id="editModal" class="modal hidden">
-      <div class="modal-content">
-        <h3 id="editModalTitle">Новий запис</h3>
-        <label>Назва:</label>
-        <input id="appNameInput" type="text" />
-        <label>URL або шлях до іконки (необов'язково):</label>
+      <!-- Головний контейнер із сіткою карток -->
+      <div id="main-container" style="padding-top: 20px">
         <input
-          id="appIconInput"
           type="text"
-          placeholder="https://example.com/icon.png"
+          id="searchInput"
+          class="search"
+          placeholder="Пошук додатків..."
         />
-        <label>Логін:</label>
-        <input id="loginInput" type="text" />
-        <label>Пароль:</label>
-        <input id="passwordInput" type="text" />
-        
-        <div class="modal-buttons">
-          <div>
-            <button id="cancelEditBtn">Скасувати</button>
-            <button id="generatePasswordBtn">Генерувати</button>
+
+        <div id="appGrid" class="app-grid"></div>
+        <div style="margin: 1rem">
+          <button id="addAppBtn"><img src="img/add.png" alt="add" /></button>
+        </div>
+        <button id="notificationsBtn" class="notif-btn">
+          <img id="messageIcon" src="img/message.png" alt="message" />
+          <span id="notifCount">0</span>
+        </button>
+        <div class="settings-cont">
+          <button id="changeMasterBtn">Змінити майстер-пароль</button>
+          <button id="changeFileBtn">Змінити файл з паролями</button>
+        </div>
+      </div>
+
+      <!-- Модальне вікно «деталі застосунку» -->
+      <div id="appDetailModal" class="modal hidden">
+        <div class="modal-content">
+          <h2 id="detailTitle">Назва застосунку</h2>
+          <img
+            id="detailIcon"
+            src=""
+            alt="icon"
+            style="max-width: 50px; max-height: 50px"
+          />
+
+          <p><strong>Логін:</strong> <span id="detailLogin"></span></p>
+          <div style="position: relative">
+            <strong>Пароль:</strong> <span id="detailPassword"></span>
+            <div class="buttons-cont">
+              <button id="showHideBtn" class="show-password">
+                <img src="img/show-pass.png" alt="show pass" />
+              </button>
+              <button class="show-password" id="copyBtn">
+                <img src="img/copy.png" alt="copy" />
+              </button>
+            </div>
           </div>
-          <button id="saveEditBtn">Зберегти</button>
+          <p>
+            <strong>Останнє оновлення:</strong> <span id="detailUpdated"></span>
+          </p>
+
+          <div class="modal-buttons">
+            <button id="editBtn">Редагувати</button>
+          </div>
+
+          <button class="close-button" id="closeDetailBtn">
+            <img src="img/close.png" alt="close" />
+          </button>
+        </div>
+      </div>
+
+      <!-- Модальне вікно «редагування/додавання застосунку» -->
+      <div id="editModal" class="modal hidden">
+        <div class="modal-content">
+          <h3 id="editModalTitle">Новий запис</h3>
+          <label>Назва:</label>
+          <input id="appNameInput" type="text" />
+          <label>URL або шлях до іконки (необов'язково):</label>
+          <input
+            id="appIconInput"
+            type="text"
+            placeholder="https://example.com/icon.png"
+          />
+          <label>Логін:</label>
+          <input id="loginInput" type="text" />
+          <label>Пароль:</label>
+          <input id="passwordInput" type="text" />
+
+          <div class="modal-buttons">
+            <button
+              id="cancelEditBtn"
+              style="position: absolute; top: 5px; right: 5px"
+            >
+              x
+            </button>
+            <div>
+              <button id="generatePasswordBtn">Генерувати</button>
+            </div>
+            <button id="saveEditBtn">Зберегти</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Модальне вікно «список повідомлень» -->
+      <div id="notificationsModal" class="modal hidden">
+        <div class="modal-content">
+          <h3>Повідомлення</h3>
+          <ul id="notificationList"></ul>
+          <div class="modal-buttons">
+            <button id="closeNotificationsBtn">Закрити</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Модальне вікно для зміни майстер-пароля -->
+      <div id="changeMasterModal" class="modal hidden">
+        <div class="modal-content">
+          <h3>Зміна майстер-пароля</h3>
+          <label>Поточний пароль:</label>
+          <input
+            type="password"
+            id="oldMasterPasswordInput"
+            placeholder="Поточний пароль"
+          />
+          <label>Новий пароль:</label>
+          <input
+            type="password"
+            id="newMasterPasswordInput"
+            placeholder="Новий пароль"
+          />
+          <label>Підтвердження нового пароля:</label>
+          <input
+            type="password"
+            id="confirmNewMasterPasswordInput"
+            placeholder="Підтвердження"
+          />
+          <div class="modal-buttons">
+            <button id="saveMasterBtn">Зберегти</button>
+            <button id="cancelMasterBtn">Скасувати</button>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- Модальне вікно «список повідомлень» -->
-    <div id="notificationsModal" class="modal hidden">
-      <div class="modal-content">
-        <h3>Повідомлення</h3>
-        <ul id="notificationList"></ul>
-        <div class="modal-buttons">
-          <button id="closeNotificationsBtn">Закрити</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Модальне вікно для зміни майстер-пароля -->
-    <div id="changeMasterModal" class="modal hidden">
-      <div class="modal-content">
-        <h3>Зміна майстер-пароля</h3>
-        <label>Поточний пароль:</label>
-        <input
-          type="password"
-          id="oldMasterPasswordInput"
-          placeholder="Поточний пароль"
-        />
-        <label>Новий пароль:</label>
-        <input
-          type="password"
-          id="newMasterPasswordInput"
-          placeholder="Новий пароль"
-        />
-        <label>Підтвердження нового пароля:</label>
-        <input
-          type="password"
-          id="confirmNewMasterPasswordInput"
-          placeholder="Підтвердження"
-        />
-        <div class="modal-buttons">
-          <button id="saveMasterBtn">Зберегти</button>
-          <button id="cancelMasterBtn">Скасувати</button>
-        </div>
-      </div>
-    </div>
-
-    
 
     <script src="renderer.js"></script>
   </body>

@@ -427,20 +427,13 @@ function checkOldPasswords() {
 /**
  * Завантажуємо дані, оновлюємо інтерфейс, перевіряємо старі паролі.
  */
+
+
 async function init() {
   let storedFilePath = window.localStorage.getItem('dataFilePath');
 
   if (!storedFilePath) {
-    // Дозволити користувачу вибрати файл або створити новий
-    const userChoice = confirm("Ви вже маєте файл з паролями?");
-    let chosenPath = null;
-
-    if (userChoice) {
-      chosenPath = await window.api.pickExistingFile();
-    } else {
-      chosenPath = await window.api.pickFileLocation();
-    }
-
+    const chosenPath = await showFileChoiceDialog();
     if (chosenPath) {
       window.localStorage.setItem('dataFilePath', chosenPath);
       await window.api.setFilePath(chosenPath);
@@ -451,11 +444,36 @@ async function init() {
   } else {
     await window.api.setFilePath(storedFilePath);
   }
+}
 
-  await loadData();
-  checkOldPasswords();
-  renderGrid();
-  updateUnreadCount();
+
+function showFileChoiceDialog() {
+  return new Promise((resolve) => {
+    const modal = document.getElementById('fileChoiceModal');
+    const btnExisting = document.getElementById('btnChooseExisting');
+    const btnCreate = document.getElementById('btnCreateNew');
+
+    const cleanup = () => {
+      modal.classList.add('hidden');
+      btnExisting.removeEventListener('click', onExisting);
+      btnCreate.removeEventListener('click', onCreate);
+    };
+
+    const onExisting = async () => {
+      cleanup();
+      const path = await window.api.pickExistingFile();
+      resolve({ path, isNew: false });
+    };
+
+    const onCreate = async () => {
+      cleanup();
+      const path = await window.api.pickFileLocation();
+      resolve({ path, isNew: true });
+    };
+
+    btnExisting.addEventListener('click', onExisting);
+    btnCreate.addEventListener('click', onCreate);
+  });
 }
 
 

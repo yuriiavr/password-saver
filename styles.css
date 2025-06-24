@@ -7,6 +7,19 @@ body {
   font-family: "Atkinson Hyperlegible Next", serif;
 }
 
+html, body {
+  overflow: auto;
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE/Edge */
+  height: 100%;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+
 input, button{
   font-size: inherit;
   color: inherit;
@@ -47,7 +60,7 @@ input, button{
   border: none;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  position: absolute;
+  position: fixed;
   right: 10px;
   bottom: 10px;
 }
@@ -59,6 +72,7 @@ input, button{
   padding: 1rem;
   max-width: 700px;
   margin: 0 auto;
+  padding-bottom: 60px;
 }
 
 .app-card {
@@ -186,13 +200,13 @@ input, button{
   background-color: transparent;
   border: none;
   cursor: pointer;
-  position: absolute;
+  position: fixed;
   left: 10px;
   bottom: 10px;
 }
 
 .settings-cont{
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
@@ -206,6 +220,36 @@ input, button{
   cursor: pointer;
 }
 
+.rainbow-text {
+  background: linear-gradient(
+    90deg,
+    red,
+    orange,
+    yellow,
+    green,
+    blue,
+    indigo,
+    violet
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowAnimation 5s linear infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+@keyframes rainbowAnimation {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+
+
 #customTitleBar {
   width: 100%;
   height: 30px;
@@ -217,6 +261,9 @@ input, button{
   padding: 0px;
   user-select: none;
   -webkit-app-region: drag; /* Дозволяє перетягування вікна */
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .titleBar{
   display: flex;
@@ -239,4 +286,47 @@ input, button{
 
 .window-buttons button:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+
+/* Вікно вибору файлу (уникнення конфлікту з .modal) */
+.file-select-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #0e141b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+}
+
+.file-select-content {
+  background: #0e141b;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.file-select-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.file-select-buttons button {
+  flex: 1;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff5277;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
