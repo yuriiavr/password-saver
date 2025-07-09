@@ -56,3 +56,5 @@ export const searchInput = document.getElementById("searchInput");
 export const fileChoiceModal = document.getElementById("fileChoiceModal");
 export const btnChooseExisting = document.getElementById("btnChooseExisting");
 export const btnCreateNew = document.getElementById("btnCreateNew");
+
+export const deleteAppButton = document.getElementById("deleteAppButton");

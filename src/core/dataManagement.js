@@ -55,3 +55,16 @@ export function copyCurrentPassword() {
       showNotification("Не вдалося скопіювати пароль.");
     });
 }
+
+
+export async function deletePasswordEntry(idToDelete) {
+    if (!masterPassword) {
+        throw new Error("Майстер-пароль не встановлено.");
+    }
+
+    const updatedPasswordData = passwordData.filter(item => item.id !== idToDelete);
+
+    setPasswordData(updatedPasswordData);
+
+    await saveData();
+}

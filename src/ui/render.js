@@ -5,7 +5,7 @@ import {
   detailIcon,
   detailLogin,
   detailPassword,
-  detailUpdated
+  detailUpdated,
 } from "./domElements.js";
 import {
   passwordData,
@@ -14,6 +14,8 @@ import {
   setCurrentIndex,
   togglePasswordVisibilityState,
 } from "../state.js";
+
+import { deletePasswordEntry } from "../core/dataManagement.js"
 
 export function renderGrid(searchTerm = "") {
   if (!appGrid) {
@@ -78,6 +80,47 @@ export function openDetailModal(itemId) {
     appDetailModal.classList.remove("hidden");
   } else {
     console.error("Error: appDetailModal element not found!");
+  }
+
+  if (deleteAppButton) {
+    deleteAppButton.onclick = null;
+    deleteAppButton.onclick = handleDeleteApp;
+  }
+}
+
+export async function handleDeleteApp() {
+  if (
+    currentIndex === null ||
+    currentIndex < 0 ||
+    currentIndex >= passwordData.length
+  ) {
+    console.error("Недійсний індекс для видалення.");
+    return;
+  }
+
+  const itemToDelete = passwordData[currentIndex];
+  if (!itemToDelete) {
+    console.error("Елемент для видалення не знайдено.");
+    return;
+  }
+
+  const confirmation = confirm(
+    `Ви впевнені, що хочете видалити "${itemToDelete.appName}"?`
+  );
+
+  if (confirmation) {
+    try {
+      await deletePasswordEntry(itemToDelete.id); 
+      if (appDetailModal) {
+        appDetailModal.classList.add("hidden"); 
+      }
+      renderGrid(); 
+      showNotification("Запис успішно видалено!"); 
+      setCurrentIndex(null);
+    } catch (error) {
+      console.error("Помилка при видаленні запису:", error);
+      showNotification("Помилка при видаленні запису.");
+    }
   }
 }
 
