@@ -210,6 +210,8 @@ input, button{
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
 }
 
 .settings-cont button{
@@ -349,5 +351,4 @@ input, button{
 #notify.is-visible {
   opacity: 1;
   visibility: visible;
-  /* height: auto; або певне значення, якщо використовуєте height */
 }

@@ -15,8 +15,7 @@
   <body>
     <div id="fileChoiceModal" class="file-select-modal hidden">
       <div class="file-select-content">
-        <h3>Ви вже маєте файл з паролями?</h3>
-        <div class="file-select-buttons">
+        <h3 id="fileChoiceModalTitle">Ви вже маєте файл з паролями?</h3> <div class="file-select-buttons">
           <button id="btnChooseExisting">Обрати існуючий</button>
           <button id="btnCreateNew">Створити новий</button>
         </div>
@@ -24,8 +23,7 @@
     </div>
 
     <div id="login-container" class="login-cont">
-      <h1>Майстер-пароль</h1>
-      <input
+      <h1 id="loginContainerTitle">Майстер-пароль</h1> <input
         type="password"
         id="masterPasswordInput"
         placeholder="Введіть майстер-пароль"
@@ -48,8 +46,7 @@
         </div>
       </div>
 
-      <div id="main-container" style="padding-top: 20px">
-        <input
+      <div id="main-content" style="padding-top: 20px"> <input
           type="text"
           id="searchInput"
           class="search"
@@ -62,28 +59,26 @@
         </div>
         <button id="notificationsBtn" class="notif-btn">
           <img id="messageIcon" src="img/message.png" alt="message" />
-          <span id="notifCount">0</span>
+          <span id="notifCountSpan">0</span> 
         </button>
         <div class="settings-cont">
           <button id="changeMasterBtn">Змінити майстер-пароль</button>
-          <button id="changeFileBtn">Змінити файл з паролями</button>
-          <button id="openSettingsBtn">Налаштування</button> </div>
+          <button id="changeFileBtn">Змінити файл</button>
+          <button id="openSettingsBtn"><img src="img/settings.png" alt="settings" style="max-width: 30px;"></button>
+        </div>
       </div>
 
       <div id="appDetailModal" class="modal hidden">
         <div class="modal-content">
-          <h2 id="detailTitle">Назва застосунку</h2>
-          <img
+          <h2 id="detailModalTitle">Назва застосунку</h2> <img
             id="detailIcon"
             src=""
             alt="icon"
             style="max-width: 50px; max-height: 50px"
           />
 
-          <p><strong>Логін:</strong> <span id="detailLogin"></span></p>
-          <div style="position: relative">
-            <strong>Пароль:</strong> <span id="detailPassword"></span>
-            <div class="buttons-cont">
+          <p><strong id="detailLoginLabel">Логін:</strong> <span id="detailLogin"></span></p> <div style="position: relative">
+            <strong id="detailPasswordLabel">Пароль:</strong> <span id="detailPassword"></span> <div class="buttons-cont">
               <button id="showHideBtn" class="show-password">
                 <img src="img/show-pass.png" alt="show pass" />
               </button>
@@ -93,8 +88,7 @@
             </div>
           </div>
           <p>
-            <strong>Оновлено:</strong> <span id="detailUpdated"></span>
-          </p>
+            <strong id="detailUpdatedLabel">Оновлено:</strong> <span id="detailUpdated"></span> </p>
 
           <div class="modal-buttons">
             <button id="editBtn">Редагувати</button>
@@ -108,19 +102,14 @@
 
       <div id="editModal" class="modal hidden">
         <div class="modal-content">
-          <h3 id="editModalTitle">Новий запис</h3>
-          <label>Назва:</label>
-          <input id="appNameInput" type="text" />
-          <label>URL або шлях до іконки (необов'язково):</label>
-          <input
+          <h3 id="editModalTitle">Новий запис</h3> <label id="appNameLabel">Назва:</label> <input id="appNameInput" type="text" />
+          <label id="appIconURLLabel">URL або шлях до іконки (необов'язково):</label> <input
             id="appIconInput"
             type="text"
             placeholder="https://example.com/icon.png"
           />
-          <label>Логін:</label>
-          <input id="loginInput" type="text" />
-          <label>Пароль:</label>
-          <input id="passwordInput" type="text" />
+          <label id="loginLabel">Логін:</label> <input id="loginInput" type="text" />
+          <label id="passwordLabel">Пароль:</label> <input id="passwordInput" type="text" />
 
           <div class="modal-buttons">
             <button
@@ -139,8 +128,7 @@
 
       <div id="notificationsModal" class="modal hidden">
         <div class="modal-content">
-          <h3>Повідомлення</h3>
-          <ul id="notificationList"></ul>
+          <h3 id="notificationsModalTitle">Повідомлення</h3> <ul id="notificationList"></ul>
           <div class="modal-buttons">
             <button id="closeNotificationsBtn">Закрити</button>
           </div>
@@ -149,21 +137,17 @@
 
       <div id="changeMasterModal" class="modal hidden">
         <div class="modal-content">
-          <h3>Зміна майстер-пароля</h3>
-          <label>Поточний пароль:</label>
-          <input
+          <h3 id="changeMasterModalTitle">Зміна майстер-пароля</h3> <label id="oldMasterPasswordLabel">Поточний пароль:</label> <input
             type="password"
             id="oldMasterPasswordInput"
             placeholder="Поточний пароль"
           />
-          <label>Новий пароль:</label>
-          <input
+          <label id="newMasterPasswordLabel">Новий пароль:</label> <input
             type="password"
             id="newMasterPasswordInput"
             placeholder="Новий пароль"
           />
-          <label>Підтвердження нового пароля:</label>
-          <input
+          <label id="confirmNewMasterPasswordLabel">Підтвердження нового пароля:</label> <input
             type="password"
             id="confirmNewMasterPasswordInput"
             placeholder="Підтвердження"
@@ -177,20 +161,17 @@
 
       <div id="settingsModal" class="modal hidden">
         <div class="modal-content">
-          <h3>Налаштування</h3>
-          <label for="notificationDaysInput">Сповіщати про оновлення пароля, якщо не змінювався більше ніж (днів):</label>
-          <input type="number" id="notificationDaysInput" min="1" value="60" />
+          <h3 id="settingsModalTitle">Налаштування</h3> <label id="notificationDaysLabel" for="notificationDaysInput">Сповіщати про оновлення пароля, якщо не змінювався більше ніж (днів):</label> <input type="number" id="notificationDaysInput" min="1" value="60" />
           <div class="modal-buttons">
             <button id="saveSettingsBtn">Зберегти</button>
             <button id="cancelSettingsBtn">Скасувати</button>
           </div>
         </div>
       </div>
-
     </div>
 
     <div id="notify"></div>
 
-    <script src="renderer.js"></script>
+    <script type="module" src="./renderer.js"></script>
   </body>
 </html>
