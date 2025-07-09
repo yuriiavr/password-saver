@@ -1,9 +1,11 @@
-// main.js
-
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
+
+require('electron-reload')(__dirname, {
+    electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+});
 
 let mainWindow = null;
 let dataFilePath = '';
@@ -92,7 +94,7 @@ ipcMain.handle('save-encrypted-data', async (event, { masterPassword, data }) =>
   }
 
   let salt;
-  // Якщо файл вже існує, намагаємося прочитати salt із нього
+
   if (fs.existsSync(dataFilePath)) {
     try {
       const existingContent = fs.readFileSync(dataFilePath, 'utf-8');
@@ -128,7 +130,6 @@ ipcMain.handle('save-encrypted-data', async (event, { masterPassword, data }) =>
 // Обробник завантаження зашифрованих даних
 ipcMain.handle('load-encrypted-data', async (event, masterPassword) => {
   if (!dataFilePath || !fs.existsSync(dataFilePath)) {
-    // Якщо файлу немає, повертаємо порожній об'єкт або масив (залежно від потреб)
     return [];
   }
 
@@ -165,6 +166,8 @@ ipcMain.on('close-window', () => {
 /* ---------------------------
    Створення головного вікна
 --------------------------- */
+
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
@@ -172,12 +175,14 @@ function createWindow() {
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: false,    // Вимикаємо прямий доступ до Node.js у рендері
-      contextIsolation: true       // Вмикаємо ізоляцію контексту для безпеки
+      nodeIntegration: false,
+      contextIsolation: true,
     }
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
+
+   mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -192,14 +197,12 @@ function createWindow() {
 app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
-  // На macOS додаток зазвичай лишається активним, доки користувач явно його не закриє
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
 app.on('activate', () => {
-  // На macOS створюємо нове вікно, якщо попереднє було закрито
   if (mainWindow === null) {
     createWindow();
   }
