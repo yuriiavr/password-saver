@@ -3,9 +3,9 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 
-require('electron-reload')(__dirname, {
-    electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
-});
+// require('electron-reload')(__dirname, {
+//     electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+// });
 
 let mainWindow = null;
 let dataFilePath = '';
@@ -182,7 +182,7 @@ function createWindow() {
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
-   mainWindow.webContents.openDevTools();
+  //  mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;

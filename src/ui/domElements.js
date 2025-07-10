@@ -2,7 +2,7 @@ export const appGrid = document.getElementById("appGrid");
 export const addAppBtn = document.getElementById("addAppBtn");
 
 export const appDetailModal = document.getElementById("appDetailModal");
-export const detailTitle = document.getElementById("detailTitle");
+export const detailTitle = document.getElementById("detailModalTitle");
 export const detailIcon = document.getElementById("detailIcon");
 export const detailLogin = document.getElementById("detailLogin");
 export const detailPassword = document.getElementById("detailPassword");
