@@ -4,7 +4,7 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dist": "electron-builder",
+    "dist": "electron-builder -mwl",
     "start": "electron ."
   },
   "keywords": [],
@@ -19,19 +19,26 @@
     "appId": "com.example.passwordmanager",
     "productName": "Password Manager",
     "directories": {
-      "output": "dist"
+      "output": "release"
     },
     "files": [
       "**/*",
       "!node_modules/.bin",
       "!node_modules/electron",
-      "!node_modules/electron-builder"
+      "!node_modules/electron-builder",
+      "!node_modules/electron-reload",
+      "!release/"
     ],
     "win": {
       "target": "nsis",
       "icon": "build/icon.ico"
     },
     "mac": {
+      "category": "your.app.category",
+      "identity": null,
+      "hardenedRuntime": false,
+      "entitlements": null,           
+      "forceCodeSigning": false,      
       "target": "dmg",
       "icon": "build/icon.icns"
     },
@@ -329,5 +336,5 @@
     "url": "https://github.com/yuriiavr/password-saver/issues"
   },
   "homepage": "https://github.com/yuriiavr/password-saver#readme",
-  "description": ""
+  "description": "A simple and secure password manager built with Electron."
 }
