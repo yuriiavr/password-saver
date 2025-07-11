@@ -18,10 +18,6 @@
   "build": {
     "appId": "com.example.passwordmanager",
     "productName": "Password Manager",
-    "publish": {
-      "provider": "generic",
-      "url": "https://github.com/yuriiavr/password-saver/releases"
-    },
     "directories": {
       "output": "release"
     },
