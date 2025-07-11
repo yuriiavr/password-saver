@@ -18,6 +18,7 @@
   "build": {
     "appId": "com.example.passwordmanager",
     "productName": "Password Manager",
+    "publish": "never",
     "directories": {
       "output": "release"
     },
