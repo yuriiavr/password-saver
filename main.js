@@ -3,26 +3,20 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 
-// require('electron-reload')(__dirname, {
-//     electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
-// });
-
 let mainWindow = null;
 let dataFilePath = '';
 
 const AES_ALGORITHM = 'aes-256-gcm';
-const SALT_LENGTH = 16;         // 16 байт для salt
-const IV_LENGTH = 12;           // 12 байт для GCM IV
-const TAG_LENGTH = 16;          // 16 байт (128 біт) для аутентифікаційного тегу
+const SALT_LENGTH = 16;
+const IV_LENGTH = 12;
+const TAG_LENGTH = 16;
 const PBKDF2_ITERATIONS = 100000;
-const KEY_LENGTH = 32;          // 32 байти = 256 біт
+const KEY_LENGTH = 32;
 
-// Функція для генерації секретного ключа з майстер-пароля та salt за допомогою PBKDF2
 function deriveKeyFromPassword(masterPassword, salt) {
   return crypto.pbkdf2Sync(masterPassword, salt, PBKDF2_ITERATIONS, KEY_LENGTH, 'sha256');
 }
 
-// Функція для шифрування рядка (plaintext)
 function encryptData(masterKey, plaintext) {
   const iv = crypto.randomBytes(IV_LENGTH);
   const cipher = crypto.createCipheriv(AES_ALGORITHM, masterKey, iv, { authTagLength: TAG_LENGTH });
@@ -35,7 +29,6 @@ function encryptData(masterKey, plaintext) {
   };
 }
 
-// Функція для дешифрування даних
 function decryptData(masterKey, encObj) {
   const iv = Buffer.from(encObj.iv, 'hex');
   const tag = Buffer.from(encObj.tag, 'hex');
@@ -46,11 +39,6 @@ function decryptData(masterKey, encObj) {
   return decrypted.toString('utf8');
 }
 
-/* ---------------------------
-   IPC обробники
---------------------------- */
-
-// Обробник для вибору місця збереження файлу (через діалог)
 ipcMain.handle('pick-file-location', async (event) => {
   const result = await dialog.showSaveDialog({
     title: 'Оберіть місце для збереження файлу паролів',
@@ -81,20 +69,16 @@ ipcMain.handle('pick-existing-file', async () => {
 });
 
 ipcMain.handle('set-file-path', async (event, filePath) => {
-    dataFilePath = filePath;
-    console.log("Data file path встановлено:", dataFilePath);
-    return true;
-  });
-  
+  dataFilePath = filePath;
+  return true;
+});
 
-// Обробник збереження зашифрованих даних
 ipcMain.handle('save-encrypted-data', async (event, { masterPassword, data }) => {
   if (!dataFilePath) {
-    throw new Error("Шлях до файлу не встановлено. Спочатку оберіть місце збереження.");
+    throw new Error("Шлях до файлу не встановлено.");
   }
 
   let salt;
-
   if (fs.existsSync(dataFilePath)) {
     try {
       const existingContent = fs.readFileSync(dataFilePath, 'utf-8');
@@ -103,11 +87,9 @@ ipcMain.handle('save-encrypted-data', async (event, { masterPassword, data }) =>
         salt = Buffer.from(parsed.salt, 'hex');
       }
     } catch (e) {
-      // Якщо не вдалось прочитати файл, генеруємо нову сіль
       salt = crypto.randomBytes(SALT_LENGTH);
     }
   } else {
-    // Якщо файла немає, генеруємо нову сіль
     salt = crypto.randomBytes(SALT_LENGTH);
   }
 
@@ -115,7 +97,6 @@ ipcMain.handle('save-encrypted-data', async (event, { masterPassword, data }) =>
   const plaintext = JSON.stringify(data);
   const encrypted = encryptData(masterKey, plaintext);
 
-  // Формуємо об'єкт, який буде збережено: зберігаємо salt, iv, tag та зашифровані дані
   const toStore = {
     salt: salt.toString('hex'),
     iv: encrypted.iv,
@@ -127,7 +108,6 @@ ipcMain.handle('save-encrypted-data', async (event, { masterPassword, data }) =>
   return true;
 });
 
-// Обробник завантаження зашифрованих даних
 ipcMain.handle('load-encrypted-data', async (event, masterPassword) => {
   if (!dataFilePath || !fs.existsSync(dataFilePath)) {
     return [];
@@ -141,7 +121,6 @@ ipcMain.handle('load-encrypted-data', async (event, masterPassword) => {
     const decryptedText = decryptData(masterKey, encObj);
     return JSON.parse(decryptedText);
   } catch (err) {
-    console.error("Помилка при завантаженні/дешифруванні даних:", err);
     throw new Error("WRONG_PASSWORD_OR_CORRUPTED_DATA");
   }
 });
@@ -162,12 +141,6 @@ ipcMain.on('close-window', () => {
   mainWindow.close();
 });
 
-
-/* ---------------------------
-   Створення головного вікна
---------------------------- */
-
-
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
@@ -182,8 +155,6 @@ function createWindow() {
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
-  //  mainWindow.webContents.openDevTools();
-
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
@@ -191,9 +162,6 @@ function createWindow() {
   mainWindow.setMenu(null);
 }
 
-/* ---------------------------
-   Події додатку
---------------------------- */
 app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {

@@ -16,16 +16,24 @@ import { renderGrid } from "../ui/render.js";
 
 export async function handleLogin() {
   const currentMasterPassword = masterPasswordInput.value.trim();
+  
+  masterPasswordInput.classList.remove("shake");
+  loginError.classList.add("hidden");
+
   if (!currentMasterPassword) {
     notify.classList.add("is-visible");
     notify.innerHTML = "Введіть майстер-пароль!";
+    masterPasswordInput.classList.add("shake");
+    
     setTimeout(() => {
       notify.classList.remove("is-visible");
+      masterPasswordInput.classList.remove("shake");
     }, 5000);
     return;
   }
 
   setMasterPassword(currentMasterPassword);
+  
   try {
     await loadData();
     loginContainer.classList.add("hidden");
@@ -35,7 +43,16 @@ export async function handleLogin() {
     renderGrid();
   } catch (err) {
     console.error("Помилка входу або завантаження даних:", err);
+    
     loginError.classList.remove("hidden");
+    masterPasswordInput.classList.add("shake");
+    
+    masterPasswordInput.value = "";
+    masterPasswordInput.focus();
+
+    setTimeout(() => {
+      masterPasswordInput.classList.remove("shake");
+    }, 400);
   }
 }
 

@@ -137,23 +137,15 @@ export function togglePasswordVisibility() {
 }
 
 export function showNotification(message) {
-  const notificationToast = document.getElementById("notificationToast");
-  if (notificationToast) {
-    notificationToast.textContent = message;
-    notificationToast.classList.remove("hidden");
-    notificationToast.classList.add("show-toast");
-    setTimeout(() => {
-      notificationToast.classList.remove("show-toast");
-      notificationToast.classList.add("hidden");
-    }, 3000);
-  } else {
-    console.warn(
-      "Notification toast element not found (ID: notificationToast)!"
-    );
+  const notify = document.getElementById("notify");
+
+  if (notify) {
+    notify.textContent = message;
     notify.classList.add("is-visible");
-    notify.innerHTML = message;
     setTimeout(() => {
       notify.classList.remove("is-visible");
-    }, 5000);
+    }, 3000);
+  } else {
+    console.warn("Елемент сповіщення з ID 'notify' не знайдено!");
   }
 }

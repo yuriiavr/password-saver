@@ -1,355 +1,588 @@
 body {
   margin: 0;
-  font-family: sans-serif;
+  font-family: "Atkinson Hyperlegible Next", sans-serif;
   background: #0e141b;
   color: #fff;
   font-size: 16px;
-  font-family: "Atkinson Hyperlegible Next", serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html, body {
   overflow: auto;
-  scrollbar-width: none;        /* Firefox */
-  -ms-overflow-style: none;     /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   height: 100%;
 }
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
-
-input, button{
+input, button, select, textarea {
   font-size: inherit;
+  font-family: inherit;
   color: inherit;
+  transition: all 0.2s ease;
 }
 
-.login-cont{
+.login-cont {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
-  border: 1px solid #fff;
-  padding: 20px 50px;
-  border-radius: 20px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #161d26;
+  padding: 40px 60px;
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
-.login-cont input{
-  background: transparent;
-  border: 1px solid #fff;
-  padding: 10px 20px;
-  margin-bottom: 20px;
+.login-cont h1 {
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 28px;
 }
 
-.login-cont button{ 
+.login-cont input {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 20px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-cont input:focus {
+  outline: none;
+  border-color: #ff5277;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 3px rgba(255, 82, 119, 0.2);
+}
+
+.login-cont button { 
   background-color: #ff5277;
-  font-size: 22px;
-  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 12px 30px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.login-cont button:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+
+.app-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.app-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.app-card img {
+  width: 60px;
+  height: 60px;
+  display: block;
+  margin: 0 auto 1rem;
+  object-fit: contain;
+}
+
+.app-card .app-title {
+  font-weight: 600;
+  margin: 0.5rem 0 0;
+  font-size: 15px;
+  color: #fff;
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 12px 20px;
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+}
+
+.search:focus {
+  outline: none;
+  border-color: #ff5277;
+  box-shadow: 0 0 0 3px rgba(255, 82, 119, 0.2);
+}
+
+#addAppBtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  padding: 0;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#addAppBtn img {
+  width: 40px;
+  opacity: 0.7;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+#addAppBtn:hover img {
+  opacity: 1;
+  transform: rotate(90deg) scale(1.1);
 }
 
 .notif-btn {
   background: transparent;
   color: #fff;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 10px;
   cursor: pointer;
   position: fixed;
-  right: 10px;
-  bottom: 10px;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.app-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
-  max-width: 700px;
-  margin: 0 auto;
-  padding-bottom: 60px;
+.notif-btn img {
+  width: 25px;
+  opacity: 0.7;
 }
 
-.app-card {
-  background: transparent;
-  border-radius: 10px;
-  padding: 0.5rem;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.2s;
-  border: 1px solid #fff;
-}
-.app-card:hover {
-  transform: scale(1.03);
-}
-.app-card img {
-  width: 50px;
-  height: 50px;
-  display: block;
-  margin: 0 auto 0.5rem;
-}
-.app-card .app-title {
+#notifCountSpan {
+  background: #ff5277;
+  color: #fff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
   font-weight: bold;
-  margin: 0.5rem 0;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
-/* Модальне вікно */
+.settings-cont {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  background: #161d26;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.settings-cont button {
+  background-color: transparent;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.settings-cont button:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+#openSettingsBtn {
+  background: transparent;
+  padding: 0;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+#openSettingsBtn img {
+  width: 22px;
+  opacity: 0.7;
+}
+
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: #0e141b;
+  background: rgba(14, 20, 27, 0.85);
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 9990;
 }
+
 .hidden {
   display: none !important;
 }
+
 .modal-content {
-  padding: 1rem;
-  width: 300px;
-  border-radius: 10px;
-  border: 1px solid #fff;
+  background: #161d26;
+  padding: 30px;
+  width: 380px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   position: relative;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+  box-sizing: border-box;
 }
 
-.modal-content input{
-  background-color: transparent;
-  border: 1px solid #fff;
-  border-radius: 10px;
-  padding: 5px 10px;
-  margin-bottom: 10px;
-  margin-top: 5px;
+.modal h2, .modal h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
 }
 
-.modal-content button{
-  background-color: #ff5277;
-  padding: 5px 10px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
+.modal label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: 500;
 }
 
-.modal h2,
-.modal h3 {
+.modal label:first-of-type {
   margin-top: 0;
 }
-.modal-buttons {
-  margin-top: 1rem;
-  text-align: right;
-  display: flex;
-  justify-content: space-between;
-}
 
-.modal-buttons div{
-  display: flex;
-}
-
-.modal-buttons button {
-  margin-left: 0.5rem;
-  font-size: 14px;
-}
-
-.buttons-cont{
-  position: absolute;
-  top: -2px;
-  right: 0;
-  margin-left: 5px;
-}
-
-.show-password{
-  background: transparent !important;
-  padding: 0 !important;
-}
-
-.show-password img{
-  width: 20px;
-}
-
-.close-button{
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-
-.close-button img{
-  width: 15px;
-}
-
-.search{
-  display: flex;
-  justify-content: center;
-  margin: 30px auto;
-  background-color: transparent;
-  border: 1px solid #fff;
-  border-radius: 20px;
+.modal-content input, .modal-content select {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
   padding: 10px 15px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-#addAppBtn{
-  background-color: transparent;
+.modal-content input:focus, .modal-content select:focus {
+  outline: none;
+  border-color: #ff5277;
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 3px rgba(255, 82, 119, 0.2);
+}
+
+.modal-content button {
+  background-color: #ff5277;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
-  position: fixed;
-  left: 10px;
-  bottom: 10px;
+  font-size: 15px;
 }
 
-.settings-cont{
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
+.modal-content button:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.modal-buttons {
+  margin-top: 25px;
+  text-align: right;
   display: flex;
+  justify-content: flex-end;
   gap: 10px;
 }
 
-.settings-cont button{
-  background-color: #ff5277;
-  padding: 5px 10px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
+.modal-buttons div {
+  display: flex;
+  margin-right: auto;
 }
 
-.rainbow-text {
-  background: linear-gradient(
-    90deg,
-    red,
-    orange,
-    yellow,
-    green,
-    blue,
-    indigo,
-    violet
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: rainbowAnimation 5s linear infinite;
+#cancelEditBtn {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#cancelEditBtn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.delete-button {
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.delete-button:hover {
+  background-color: rgba(255, 0, 0, 0.1) !important;
+  color: #ff4d4d !important;
+  border-color: rgba(255, 77, 77, 0.3) !important;
+}
+
+.buttons-cont {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
+  top: 5px;
+  right: 5px;
+  display: flex;
+  gap: 5px;
 }
 
-@keyframes rainbowAnimation {
-  0% {
-    background-position: 0%;
-  }
-  100% {
-    background-position: 100%;
-  }
+.show-password {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  opacity: 0.6;
 }
 
+.show-password:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 6px;
+}
+
+.show-password img {
+  width: 18px;
+}
+
+.close-button {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.close-button img {
+  width: 15px;
+  opacity: 0.5;
+}
+
+#detailIcon {
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: block;
+  margin: 0 auto 20px;
+}
+
+#appDetailModal p strong {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+#appDetailModal p span {
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  margin-left: 5px;
+}
 
 #customTitleBar {
   width: 100%;
   height: 30px;
-  background: #222;
-  color: white;
+  background: #1c252f;
+  color: rgba(255, 255, 255, 0.7);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px;
   user-select: none;
-  -webkit-app-region: drag; /* Дозволяє перетягування вікна */
+  -webkit-app-region: drag;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 9999;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
 }
-.titleBar{
+
+.titleBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 0 10px;
+  height: 100%;
+  padding: 0 0 0 15px;
+  font-size: 13px;
+  font-weight: 500;
+  box-sizing: border-box;
+}
+
+#main-content {
+  padding-top: 40px; 
+}
+
+.window-buttons {
+  display: flex;
 }
 
 .window-buttons button {
   background: none;
   border: none;
   color: white;
-  font-size: 14px;
-  width: 30px;
+  font-size: 12px;
+  width: 40px;
   height: 30px;
   cursor: pointer;
-  -webkit-app-region: no-drag; /* Вимикає перетягування на кнопках */
-}
-
-.window-buttons button:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-
-/* Вікно вибору файлу (уникнення конфлікту з .modal) */
-.file-select-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #0e141b;
+  -webkit-app-region: no-drag;
+  opacity: 0.7;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.window-buttons button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 1;
+}
+
+#closeBtn:hover {
+  background-color: #ff4d4d;
+}
+
+.file-select-modal {
+  background: #0e141b;
   z-index: 9998;
 }
 
 .file-select-content {
-  background: #0e141b;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  max-width: 400px;
-  width: 90%;
+  background: #161d26;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px;
 }
 
 .file-select-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
+  margin-top: 30px;
   gap: 20px;
 }
 
-.file-select-buttons button {
-  flex: 1;
-  padding: 10px 20px;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  background-color: #ff5277;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.2s;
+#notificationList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
-#notify{
-  position: absolute;
-  top: 35px;
-  right: 10px;
-  z-index: 1000;
+#notificationList::-webkit-scrollbar {
+  display: none;
+}
+
+#notificationList li {
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid #ff5277;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+#notificationList li b {
+  color: #fff;
+  font-weight: 600;
+}
+
+#notify {
+  position: fixed; 
+  top: 45px;
+  right: 20px;
+  z-index: 10000000;
   background-color: #ff5277;
-  padding: 5px 20px;
-  cursor: pointer;
-  transition: all 1s ease-out;
+  padding: 10px 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  transform: translateY(-10px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
 }
-
 
 #notify.is-visible {
   opacity: 1;
   visibility: visible;
+  transform: translateY(0);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  50% { transform: translateX(10px); }
+  75% { transform: translateX(-10px); }
+}
+
+.shake {
+  animation: shake 0.4s ease-in-out;
+  border-color: #ff5277 !important;
+}
+
+#loginError {
+  color: #ff5277;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.hidden {
+  display: none !important;
 }
