@@ -11,29 +11,34 @@ import {
 import { loadData, saveData } from "./dataManagement.js";
 import { checkOldPasswords } from "./passwordLogic.js";
 import { updateUnreadCount } from "../ui/notificationsUI.js";
-import { setMasterPassword } from "../state.js";
-import { renderGrid } from "../ui/render.js";
+import { setMasterPassword, setPasswordData } from "../state.js";
+import { renderGrid, showNotification } from "../ui/render.js";
+
+export function lockApp() {
+  setMasterPassword("");
+  setPasswordData([]);
+  masterPasswordInput.value = "";
+  loginError.classList.add("hidden");
+  mainContainer.classList.add("hidden");
+  loginContainer.classList.remove("hidden");
+  masterPasswordInput.focus();
+}
 
 export async function handleLogin() {
   const currentMasterPassword = masterPasswordInput.value.trim();
-  
+
   masterPasswordInput.classList.remove("shake");
   loginError.classList.add("hidden");
 
   if (!currentMasterPassword) {
-    notify.classList.add("is-visible");
-    notify.innerHTML = "Введіть майстер-пароль!";
+    showNotification("Введіть майстер-пароль!");
     masterPasswordInput.classList.add("shake");
-    
-    setTimeout(() => {
-      notify.classList.remove("is-visible");
-      masterPasswordInput.classList.remove("shake");
-    }, 5000);
+    setTimeout(() => masterPasswordInput.classList.remove("shake"), 500);
     return;
   }
 
   setMasterPassword(currentMasterPassword);
-  
+
   try {
     await loadData();
     loginContainer.classList.add("hidden");
@@ -43,10 +48,12 @@ export async function handleLogin() {
     renderGrid();
   } catch (err) {
     console.error("Помилка входу або завантаження даних:", err);
-    
+
+    setMasterPassword("");
+
     loginError.classList.remove("hidden");
     masterPasswordInput.classList.add("shake");
-    
+
     masterPasswordInput.value = "";
     masterPasswordInput.focus();
 
@@ -73,49 +80,29 @@ export async function saveNewMasterPassword() {
   const confirmNewPass = confirmNewMasterPasswordInput.value.trim();
 
   if (!oldPass || !newPass || !confirmNewPass) {
-    notify.classList.add("is-visible");
-    notify.innerHTML = "Будь ласка, заповніть всі поля!";
-    setTimeout(() => {
-      notify.classList.remove("is-visible");
-    }, 5000);
+    showNotification("Будь ласка, заповніть всі поля!");
     return;
   }
 
   if (newPass !== confirmNewPass) {
-    notify.classList.add("is-visible");
-    notify.innerHTML = "Новий пароль і його підтвердження не співпадають!";
-    setTimeout(() => {
-      notify.classList.remove("is-visible");
-    }, 5000);
+    showNotification("Новий пароль і підтвердження не співпадають!");
     return;
   }
 
   try {
     await window.api.loadEncryptedData(oldPass);
   } catch (err) {
-    notify.classList.add("is-visible");
-    notify.innerHTML = "Поточний пароль введено невірно!";
-    setTimeout(() => {
-      notify.classList.remove("is-visible");
-    }, 5000);
+    showNotification("Поточний пароль введено невірно!");
     return;
   }
 
   setMasterPassword(newPass);
   try {
     await saveData();
-    notify.classList.add("is-visible");
-    notify.innerHTML = "Майстер-пароль змінено успішно!";
-    setTimeout(() => {
-      notify.classList.remove("is-visible");
-    }, 5000);
+    showNotification("Майстер-пароль змінено успішно!");
     changeMasterModal.classList.add("hidden");
   } catch (err) {
     console.error("Помилка зміни майстер-пароля:", err);
-    notify.classList.add("is-visible");
-    notify.innerHTML = "Не вдалося змінити майстер-пароль!";
-    setTimeout(() => {
-      notify.classList.remove("is-visible");
-    }, 5000);
+    showNotification("Не вдалося змінити майстер-пароль!");
   }
 }

@@ -76,7 +76,7 @@ input, button, select, textarea {
   letter-spacing: 0.5px;
 }
 
-.login-cont button:hover {
+.login-cont #loginBtn:hover {
   filter: brightness(1.1);
   transform: translateY(-2px);
 }
@@ -113,6 +113,21 @@ input, button, select, textarea {
   display: block;
   margin: 0 auto 1rem;
   object-fit: contain;
+}
+
+.app-icon-placeholder {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #ff5277, #7c2ae8);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0 auto 1rem;
+  color: #fff;
+  text-transform: uppercase;
 }
 
 .app-card .app-title {
@@ -533,6 +548,17 @@ input, button, select, textarea {
   font-size: 14px;
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.8);
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-notif-item {
+  cursor: pointer;
+  opacity: 0.5;
+  padding: 5px;
+  font-size: 18px;
 }
 
 #notificationList li b {
@@ -585,4 +611,25 @@ input, button, select, textarea {
 
 .hidden {
   display: none !important;
+}
+
+.login-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#changeFileOnLoginBtn{
+  color: #ff5277;
+  border: none;
+  background-color: transparent ;
+  font-size: 12px;
+}
+
+#changeFileOnLoginBtn:hover{
+  color: #fff;
+  text-decoration: underline;
 }

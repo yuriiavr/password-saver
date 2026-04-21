@@ -4,6 +4,7 @@ import { updateUnreadCount } from '../ui/notificationsUI.js';
 export function checkOldPasswords() {
     setNotifications([]);
     const now = new Date();
+    const dismissed = JSON.parse(localStorage.getItem("dismissedNotifications") || "{}");
 
     passwordData.forEach((item) => {
         const dateToCheckStr = item.lastUpdated;
@@ -19,11 +20,18 @@ export function checkOldPasswords() {
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
         if (diffDays > notificationThresholdDays) {
-            const message = `Пароль у "${item.appName}" не змінювався понад ${notificationThresholdDays} днів! Оновіть його.`;
-            addNotification({
-                message: message,
-                isRead: false,
-            });
+            const currentInterval = Math.floor(diffDays / 30) * 30;
+            const lastDismissed = dismissed[item.id] || 0;
+
+            if (currentInterval > lastDismissed) {
+                const message = `Пароль у "${item.appName}" не змінювався вже ${diffDays} днів!`;
+                addNotification({
+                    id: item.id,
+                    threshold: currentInterval,
+                    message: message,
+                    isRead: false,
+                });
+            }
         }
     });
     updateUnreadCount();

@@ -38,6 +38,11 @@ export function renderGrid(searchTerm = "") {
       const img = document.createElement("img");
       img.src = item.iconUrl;
       card.appendChild(img);
+    } else {
+      const placeholder = document.createElement("div");
+      placeholder.classList.add("app-icon-placeholder");
+      placeholder.textContent = item.appName ? item.appName.charAt(0) : "?";
+      card.appendChild(placeholder);
     }
 
     const title = document.createElement("div");
@@ -66,9 +71,17 @@ export function openDetailModal(itemId) {
     if (item.iconUrl) {
       detailIcon.src = item.iconUrl;
       detailIcon.style.display = "block";
+      const oldPlaceholder = appDetailModal.querySelector('.app-icon-placeholder');
+      if (oldPlaceholder) oldPlaceholder.remove();
     } else {
-      detailIcon.src = "";
       detailIcon.style.display = "none";
+      let placeholder = appDetailModal.querySelector('.app-icon-placeholder');
+      if (!placeholder) {
+        placeholder = document.createElement("div");
+        placeholder.classList.add("app-icon-placeholder");
+        detailIcon.parentNode.insertBefore(placeholder, detailIcon);
+      }
+      placeholder.textContent = item.appName.charAt(0);
     }
   }
 

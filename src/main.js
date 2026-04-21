@@ -25,7 +25,7 @@ export async function init() {
             setTimeout(() => {
                 notify.classList.remove('is-visible')
             }, 5000)
-            return; 
+            return;
         }
     } else {
         await window.api.setFilePath(storedFilePath);

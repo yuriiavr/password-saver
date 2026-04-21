@@ -33,6 +33,7 @@ export const notify = document.getElementById("notify");
 export const openSettingsBtn = document.getElementById("openSettingsBtn");
 export const settingsModal = document.getElementById("settingsModal");
 export const notificationDaysInput = document.getElementById("notificationDaysInput");
+export const hotkeyInput = document.getElementById("hotkeyInput");
 export const saveSettingsBtn = document.getElementById("saveSettingsBtn");
 export const cancelSettingsBtn = document.getElementById("cancelSettingsBtn");
 

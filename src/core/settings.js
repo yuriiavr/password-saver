@@ -2,7 +2,7 @@ import {
   notificationThresholdDays,
   setNotificationThresholdDays,
 } from "../state.js";
-import { notificationDaysInput } from "../ui/domElements.js";
+import { notificationDaysInput, hotkeyInput } from "../ui/domElements.js";
 import { showNotification } from "../ui/render.js";
 import { checkOldPasswords } from "./passwordLogic.js";
 import { updateUnreadCount } from "../ui/notificationsUI.js";
@@ -18,6 +18,11 @@ export function loadSettings() {
     setNotificationThresholdDays(parsedDays);
   }
   notificationDaysInput.value = notificationThresholdDays;
+
+  const storedHotkey = localStorage.getItem("globalHotkey");
+  if (storedHotkey && hotkeyInput) {
+    hotkeyInput.value = storedHotkey;
+  }
 }
 
 export function saveSettings() {
@@ -29,12 +34,14 @@ export function saveSettings() {
     checkOldPasswords();
     updateUnreadCount();
   } else {
-    notify.classList.add("is-visible");
-    notify.innerHTML = "Будь ласка, введіть дійсне число днів (більше 0).";
-    setTimeout(() => {
-      notify.classList.remove("is-visible");
-    }, 5000);
+    showNotification("Будь ласка, введіть дійсне число днів (більше 0).");
     notificationDaysInput.value = notificationThresholdDays;
   }
+
+  if (hotkeyInput && hotkeyInput.value) {
+    localStorage.setItem("globalHotkey", hotkeyInput.value);
+    window.api.registerHotkey(hotkeyInput.value);
+  }
+
   closeSettingsModal();
 }

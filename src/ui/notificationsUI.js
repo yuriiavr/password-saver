@@ -1,4 +1,4 @@
-import { notifications } from '../state.js';
+import { notifications, setNotifications } from '../state.js';
 
 
 export function renderNotifications() {
@@ -7,7 +7,13 @@ export function renderNotifications() {
         currentNotificationList.innerHTML = "";
         notifications.forEach((msg) => {
             const li = document.createElement("li");
-            li.textContent = msg.message;
+            li.dataset.id = msg.id || "";
+            li.dataset.threshold = msg.threshold || "";
+            
+            li.innerHTML = `
+                <span>${msg.message}</span>
+                <span class="close-notif-item">×</span>
+            `;
             currentNotificationList.appendChild(li);
         });
     } else {

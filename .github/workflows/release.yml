@@ -1,0 +1,33 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Спрацьовує при пуші тегів, що починаються на v (напр. v1.0.1)
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build and Publish
+        # Команда publish always змушує electron-builder завантажити файл у GitHub Releases
+        run: npm run build -- --publish always
+        env:
+          # GITHUB_TOKEN створюється автоматично самим GitHub
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Якщо ви використовуєте підпис коду для Windows, додайте сертифікати в Secrets
+          # CSC_LINK: ${{ secrets.CSC_LINK }}
+          # CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}

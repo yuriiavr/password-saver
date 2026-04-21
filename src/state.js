@@ -1,5 +1,5 @@
 export let passwordData = [];
-export let notifications = []; // { message, isRead }
+export let notifications = [];
 export let currentIndex = -1;
 export let isPasswordVisible = false;
 export let masterPassword = "";
