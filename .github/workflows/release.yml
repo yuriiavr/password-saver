@@ -7,7 +7,11 @@ on:
 
 jobs:
   release:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
 
     steps:
       - name: Checkout repository
@@ -24,7 +28,7 @@ jobs:
 
       - name: Build and Publish
         # Команда publish always змушує electron-builder завантажити файл у GitHub Releases
-        run: npm run build -- --publish always
+        run: npm run build -- --publish always ${{ matrix.os == 'windows-latest' && '--win' || '--linux' }}
         env:
           # GITHUB_TOKEN створюється автоматично самим GitHub
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
