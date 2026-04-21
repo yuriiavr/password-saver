@@ -41,8 +41,11 @@ function decryptData(masterKey, encObj) {
   return decrypted.toString('utf8');
 }
 
+// ─── Tray ──────────────────────────────────────────────────────────────────────
+
 function createTray() {
-  const iconPath = path.join(__dirname, 'build', 'icon.ico');
+  const iconName = process.platform === 'win32' ? 'icon.ico' : 'icon.png';
+  const iconPath = path.join(__dirname, 'img', iconName);
   const icon = nativeImage.createFromPath(iconPath);
   tray = new Tray(icon);
 
@@ -64,6 +67,7 @@ function createTray() {
   tray.setToolTip('Password Manager  •  F9 — швидкий доступ');
   tray.setContextMenu(contextMenu);
 
+  // Клік лівою — показати/приховати вікно
   tray.on('click', () => {
     if (mainWindow && mainWindow.isVisible()) {
       mainWindow.hide();
@@ -106,6 +110,7 @@ function createOverlayWindow() {
   });
 
   overlayWindow.loadFile(path.join(__dirname, 'overlay.html'));
+  overlayWindow.webContents.openDevTools(); // Відкрити консоль для оверлея
 
   overlayWindow.once('ready-to-show', () => {
     overlayWindow.show();
@@ -133,6 +138,8 @@ ipcMain.on('passwords-for-overlay', (event, passwords) => {
 ipcMain.on('close-overlay', () => {
   if (overlayWindow) overlayWindow.close();
 });
+
+// ─── IPC handlers ──────────────────────────────────────────────────────────────
 
 ipcMain.handle('pick-file-location', async () => {
   const result = await dialog.showSaveDialog({
@@ -163,7 +170,7 @@ ipcMain.handle('set-file-path', async (event, filePath) => {
 });
 
 ipcMain.handle('register-hotkey', (event, hotkey) => {
-  globalShortcut.unregisterAll();
+  globalShortcut.unregisterAll(); // Скидаємо старі комбінації
   globalShortcut.register(hotkey, () => {
     createOverlayWindow();
   });
@@ -220,9 +227,12 @@ ipcMain.on('maximize-window', () => {
   else mainWindow.maximize();
 });
 
+// ✕ — ховає в трей, не вбиває процес
 ipcMain.on('close-window', () => {
   if (mainWindow) mainWindow.hide();
 });
+
+// ─── Window ────────────────────────────────────────────────────────────────────
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -237,8 +247,10 @@ function createWindow() {
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
+  mainWindow.webContents.openDevTools(); // Відкрити консоль для головного вікна
   mainWindow.setMenu(null);
 
+  // Alt+F4 або системне закриття — теж ховаємо в трей
   mainWindow.on('close', (e) => {
     if (!app.isQuiting) {
       e.preventDefault();
@@ -250,6 +262,8 @@ function createWindow() {
     mainWindow = null;
   });
 }
+
+// ─── App lifecycle ─────────────────────────────────────────────────────────────
 
 app.whenReady().then(() => {
   createWindow();
