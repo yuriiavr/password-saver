@@ -110,7 +110,6 @@ function createOverlayWindow() {
   });
 
   overlayWindow.loadFile(path.join(__dirname, 'overlay.html'));
-  overlayWindow.webContents.openDevTools(); // Відкрити консоль для оверлея
 
   overlayWindow.once('ready-to-show', () => {
     overlayWindow.show();
@@ -247,7 +246,6 @@ function createWindow() {
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  mainWindow.webContents.openDevTools(); // Відкрити консоль для головного вікна
   mainWindow.setMenu(null);
 
   // Alt+F4 або системне закриття — теж ховаємо в трей
