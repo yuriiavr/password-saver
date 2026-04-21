@@ -9,7 +9,7 @@
     "start": "electron ."
   },
   "keywords": [],
-  "author": "",
+  "author": "yuriiavr <yuriiavr@example.com>",
   "license": "ISC",
   "devDependencies": {
     "electron": "^34.5.8",
